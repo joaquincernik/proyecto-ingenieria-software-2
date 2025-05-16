@@ -38,8 +38,73 @@ class TareaCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // set columns from db columns.
+        CRUD::column("titulo")
+            ->label("Tarea");
 
+        CRUD::column("descripcion")
+            ->label("Descripcion");
+
+        CRUD::column("user.name")
+            ->label("Usuario asignado");
+
+        CRUD::column("proyecto.nombre")
+            ->label("Proyecto");
+
+        CRUD::column("categoria.nombre")
+            ->label("Categoria");
+        
+        CRUD::column('prioridad')
+            ->label('Prioridad')
+            ->type('radio')
+            ->options(
+                [
+                    3 => 'Baja',
+                    1 => 'Media',
+                    2 => 'Alta',
+                ]
+            )
+            ->wrapper([  //estilos
+                'element' => 'span',
+                'class' => function ($crud, $column, $entry, $related_key) {
+                    if (($entry->prioridad) == 3) {
+                        return 'badge bg-success';
+                    }
+
+                    if (($entry->prioridad) == 1) {
+                        return 'badge bg-warning';
+                    }
+                    return 'badge bg-danger';
+                },
+            ]);
+
+        CRUD::column('estado')
+            ->label('Estado')
+            ->type('radio')
+            ->options(
+                [
+                    3 => 'No realizada',
+                    1 => 'En proceso',
+                    2 => 'Finalizada',
+                ]
+            )
+            ->wrapper([  //estilos
+                'element' => 'span',
+                'class' => function ($crud, $column, $entry, $related_key) {
+                    if (($entry->estado) == 2) {
+                        return 'badge bg-success';
+                    }
+
+                    if (($entry->estado) == 1) {
+                        return 'badge bg-warning';
+                    }
+
+
+                    return 'badge bg-danger';
+                },
+            ]);
+
+        ;
+        
         /**
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
@@ -54,8 +119,53 @@ class TareaCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setFromDb(); // set fields from db columns.
+       // CRUD::setFromDb(); // set fields from db columns.
+        CRUD::field("titulo");
+        CRUD::field("descripcion");
+        CRUD::field('usuario_id')
+            ->type('select')
+            ->label('Usuario')
+            ->hint("Usuario al cual queres asignar la tarea")
+            ->entity('user')
+            ->attribute('name');
 
+        CRUD::field('categoria_id')
+            ->type('select')
+            ->label('Categoria')
+            ->entity('categoria')
+            ->attribute('nombre');
+
+        CRUD::field('proyecto_id')
+            ->type('select')
+            ->label('Proyecto')
+            ->entity('proyecto')
+            ->attribute('nombre');
+
+        CRUD::field("estado")
+            ->label("Estado de tarea")
+            ->type("radio")
+            ->default(3)
+            ->options(
+                [
+                    3 => "No realizado",
+                    1 => "En proceso",
+                    2 => "Finalizado"
+                ]
+            );
+
+        
+        CRUD::field("prioridad")
+            ->label("Prioridad de tarea")
+            ->type("radio")
+            ->default(3)
+            ->options(
+                [
+                    3 => "Baja",
+                    2 => "Media",
+                    1 => "Alta",
+
+                ]
+            );
         /**
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');

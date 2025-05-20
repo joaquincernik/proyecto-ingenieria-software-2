@@ -58,19 +58,19 @@ class TareaCrudController extends CrudController
             ->type('radio')
             ->options(
                 [
-                    3 => 'Baja',
-                    1 => 'Media',
-                    2 => 'Alta',
+                    1 => 'Baja',
+                    2 => 'Media',
+                    3 => 'Alta',
                 ]
             )
             ->wrapper([  //estilos
                 'element' => 'span',
                 'class' => function ($crud, $column, $entry, $related_key) {
-                    if (($entry->prioridad) == 3) {
+                    if (($entry->prioridad) == 1) {
                         return 'badge bg-success';
                     }
 
-                    if (($entry->prioridad) == 1) {
+                    if (($entry->prioridad) == 2) {
                         return 'badge bg-warning';
                     }
                     return 'badge bg-danger';
@@ -82,19 +82,19 @@ class TareaCrudController extends CrudController
             ->type('radio')
             ->options(
                 [
-                    3 => 'No realizada',
-                    1 => 'En proceso',
-                    2 => 'Finalizada',
+                    1 => 'No realizada',
+                    2 => 'En proceso',
+                    3 => 'Finalizada',
                 ]
             )
             ->wrapper([  //estilos
                 'element' => 'span',
                 'class' => function ($crud, $column, $entry, $related_key) {
-                    if (($entry->estado) == 2) {
+                    if (($entry->estado) == 3) {
                         return 'badge bg-success';
                     }
 
-                    if (($entry->estado) == 1) {
+                    if (($entry->estado) == 2) {
                         return 'badge bg-warning';
                     }
 
@@ -144,12 +144,12 @@ class TareaCrudController extends CrudController
         CRUD::field("estado")
             ->label("Estado de tarea")
             ->type("radio")
-            ->default(3)
+            ->default(1)
             ->options(
                 [
-                    3 => "No realizado",
-                    1 => "En proceso",
-                    2 => "Finalizado"
+                    1 => "No realizado",
+                    2 => "En proceso",
+                    3 => "Finalizado"
                 ]
             );
 
@@ -160,9 +160,9 @@ class TareaCrudController extends CrudController
             ->default(3)
             ->options(
                 [
-                    3 => "Baja",
+                    1 => "Baja",
                     2 => "Media",
-                    1 => "Alta",
+                    3 => "Alta",
 
                 ]
             );
